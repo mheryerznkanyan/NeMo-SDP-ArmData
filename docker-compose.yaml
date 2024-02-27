@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  frontend:
+    build: . # This tells Docker Compose to build an image using the Dockerfile in the current directory
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 9000000000 # ~9gb
+      - .:/workspace/nemo_capstone
+    entrypoint: tail -f
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+
+volumes:
+  # local
+  data-transfer:
+    driver: local
+    name: data-transfer 

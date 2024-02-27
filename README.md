@@ -19,13 +19,26 @@ To learn more about SDP, have a look at our [documentation](https://nvidia.githu
 
 SDP is officially supported for Python 3.9, but might work for other versions.
 
-To install all required dependencies run `pip install -r requirements/main.txt`. You will need to install
-additional requirements if you want to [run tests](tests/README.md) or [build documentation](docs/README.md).
+To install all required dependencies, instead of using pip, you now need to use Docker Compose. Run the following command to set up your environment:
+
+```
+docker-compose up --build
+```
+This command builds and starts the containers as defined in your docker-compose.yml file. Ensure you have Docker and Docker Compose installed on your system before running this command.
+
+After setting up the Docker environment, navigate to the ```workspace/nemo_capstone``` directory within the Docker container and run the following command to start the application with a specific configuration:
+```
+python main.py --config-path="dataset_configs/armenian/youtube_audio/" --config-name="config.yaml"
+```
+This command runs the main.py script with configuration options specified for processing Armenian audio data from YouTube. Ensure you are in the correct directory within the Docker environment before executing this command.
+
+You will need to install additional requirements if you want to run tests or build documentation.
 
 Some SDP processors depend on the NeMo toolkit (ASR, NLP parts) and NeMo Text Processing.
-Please follow [NeMo installation instructions](https://github.com/NVIDIA/NeMo#installation)
-and [NeMo Text Processing installation instructions](https://github.com/NVIDIA/NeMo-text-processing#installation)
+Please follow NeMo installation instructions
+and NeMo Text Processing installation instructions
 if you need to use such processors.
 
 ## Contributing
-We welcome community contributions! Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) for the process.
+
+We welcome community contributions! Please refer to the CONTRIBUTING.md for the process.
