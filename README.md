@@ -26,6 +26,20 @@ docker-compose up --build
 ```
 This command builds and starts the containers as defined in your docker-compose.yml file. Ensure you have Docker and Docker Compose installed on your system before running this command.
 
+## Accessing the Docker Container
+After the Docker environment has been set up and the containers are running, you will need to access the Docker container to run additional commands. Follow these steps:
+
+List all running Docker containers to find the ID of the container you need to access:
+```
+docker container list
+```
+Copy the container ID of the relevant container from the list. The container ID is usually the first column of the output.
+Use the copied container ID to access the shell inside the container:
+```
+docker exec -it <container_id> bash
+```
+
+
 After setting up the Docker environment, navigate to the ```workspace/nemo_capstone``` directory within the Docker container and run the following command to start the application with a specific configuration:
 ```
 python main.py --config-path="dataset_configs/armenian/youtube_audio/" --config-name="config.yaml"
