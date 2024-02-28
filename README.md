@@ -26,6 +26,48 @@ docker-compose up --build
 ```
 This command builds and starts the containers as defined in your docker-compose.yml file. Ensure you have Docker and Docker Compose installed on your system before running this command.
 
+To focus solely on the configuration of YouTube audio downloads via the `search_terms.json` file, here's how you could concisely describe that process:
+
+
+
+## Configuring YouTube Audio Downloads
+
+To tailor YouTube audio downloads to your requirements, configure the `search_terms.json` file found at:
+
+```
+sdp/processors/datasets/armdata/search_terms.json
+```
+
+This JSON file allows you to specify several parameters for downloading audio from YouTube, including the channel names, search terms, desired audio format, and the number of audio files to download. Here's the structure you should follow in the JSON file:
+
+```json
+{
+    "channels": [
+      {
+        "channel_name": "Channel Name 1",
+        "search_term": "Search Term Related to Channel 1",
+        "audio_format": "wav",
+        "audio_count": Number of Audios to Download
+      },
+      {
+        "channel_name": "Channel Name 2",
+        "search_term": "Search Term Related to Channel 2",
+        "audio_format": "wav",
+        "audio_count": Number of Audios to Download
+      }
+      // Add more channels as needed
+    ]
+}
+```
+
+- **channel_name**: The name of the YouTube channel.
+- **search_term**: Specific search term to find videos from the specified channel.
+- **audio_format**: The format in which you want to download the audio (e.g., "wav").
+- **audio_count**: The number of audio files you wish to download for each search term.
+
+Modify this file to include your chosen channels, search terms, desired audio format (e.g., "wav"), and the quantity of audio files you aim to download per term.
+
+
 ## Accessing the Docker Container
 After the Docker environment has been set up and the containers are running, you will need to access the Docker container to run additional commands. Follow these steps:
 
@@ -52,6 +94,9 @@ Some SDP processors depend on the NeMo toolkit (ASR, NLP parts) and NeMo Text Pr
 Please follow NeMo installation instructions
 and NeMo Text Processing installation instructions
 if you need to use such processors.
+
+
+
 
 ## Contributing
 
