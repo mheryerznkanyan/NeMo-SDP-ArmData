@@ -51,6 +51,7 @@ from sdp.processors.modify_manifest.data_to_data import (
     SubMakeLowercase,
     SubRegex,
     GetYoutubeAudio,
+    GetAudioDuration
 )
 from sdp.processors.modify_manifest.data_to_dropbool import (
     DropASRError,
@@ -76,3 +77,5 @@ from sdp.processors.nemo.asr_inference import ASRInference
 from sdp.processors.nemo.pc_inference import PCInference
 
 from sdp.processors.modify_manifest.lid_inference import AudioLid
+from sdp.processors.datasets.fleurs.create_initial_manifest import CreateInitialManifestFleurs
+

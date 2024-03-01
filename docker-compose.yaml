@@ -7,7 +7,7 @@ services:
         target: /dev/shm
         tmpfs:
           size: 9000000000 # ~9gb
-      - .:/workspace/nemo_capstone
+      - .:/workspace
     entrypoint: tail -f
     deploy:
       resources:
