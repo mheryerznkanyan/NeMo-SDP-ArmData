@@ -24,14 +24,12 @@ import json
 from sdp.logging import logger
 
 
-def download_file(source_url: str, target_directory: str, verbose = True):
+def download_file(source_url: str, target_directory: str, file_name: str,verbose = True):
     # make sure target_directory is an absolute path to avoid bugs when we change directories to download data later
     target_directory = os.path.abspath(target_directory)
-
     if verbose:
         logger.info(f"Trying to download data from {source_url} and save it in this directory: {target_directory}")
-    filename = os.path.basename(urllib.parse.urlparse(source_url).path)
-    target_filepath = os.path.join(target_directory, filename)
+    target_filepath = os.path.join(target_directory, file_name)
 
     if os.path.exists(target_filepath):
         if verbose:
@@ -39,14 +37,11 @@ def download_file(source_url: str, target_directory: str, verbose = True):
     else:
         original_dir = os.getcwd() # record current working directory so can cd back to it
         os.chdir(target_directory) # cd to target dir so that temporary download file will be saved in target dir
-
-        wget.download(source_url, target_directory)
-
+        wget.download(source_url, target_filepath)
         # change back to original directory as the rest of the code may assume that we are in that directory
         os.chdir(original_dir)
         if verbose:
             logger.info("Download completed")
-
     return target_filepath
 
 def extract_archive(archive_path: str, extract_path: str, force_extract: bool = False) -> str:

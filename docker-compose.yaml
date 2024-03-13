@@ -1,21 +1,22 @@
-version: "3.9"
+version: '3.9'
 services:
   frontend:
-    build: . # This tells Docker Compose to build an image using the Dockerfile in the current directory
+    image: nvcr.io/nvidia/nemo:23.10
+    build: .
     volumes:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
           size: 9000000000 # ~9gb
-      - .:/workspace
-    entrypoint: tail -f
+      - .:/workspace/nemo_capstone
+      - /raid/asds/:/workspace/nemo_capstone/data
     deploy:
       resources:
-        limits:
-          memory: 16G
-
-volumes:
-  # local
-  data-transfer:
-    driver: local
-    name: data-transfer 
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: [gpu]
+            count: 'all' # or 'all' to use all GPUs
+    entrypoint: tail -f
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all

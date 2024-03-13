@@ -86,7 +86,6 @@ def select_subset(input_list: List, select_str: str) -> List:
 
 
 def run_processors(cfg):
-    HYDRA_FULL_ERROR=1
     logger.info(f"Hydra config: {OmegaConf.to_yaml(cfg)}")
     processors_to_run = cfg.get("processors_to_run", "all")
 
@@ -139,7 +138,6 @@ def run_processors(cfg):
             if idx != len(processors_cfgs) - 1 and "input_manifest_file" not in processors_cfgs[idx + 1]:
                 with open_dict(processors_cfgs[idx + 1]):
                     processors_cfgs[idx + 1]["input_manifest_file"] = processor_cfg["output_manifest_file"]
-            print(processor_cfg)
             # print("###########################################")
             processor = hydra.utils.instantiate(processor_cfg)
             # running runtime tests to fail right-away if something is not
