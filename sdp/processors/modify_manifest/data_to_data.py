@@ -28,6 +28,74 @@ import logging
 import soundfile
 
 
+class CountNumWords(BaseParallelProcessor):
+    """
+    Processor for counting the number of words in the text_key field saving the number in num_words_key.
+
+    Args:
+        text_key (str): The field containing the input text in the dataset.
+        num_words_key (str): The field to store the number of words in the dataset.
+        alphabet (str): Characters to be used to count words. Any other characters are substituted by whitespace and not take into account.
+        **kwargs: Additional keyword arguments to be passed to the base class `BaseParallelProcessor`.
+
+    """
+
+    def __init__(
+        self,
+        text_key: str,
+        num_words_key: str,
+        alphabet: str,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.text_key = text_key
+        self.num_words_key = num_words_key
+        self.pattern = re.compile("[^" + alphabet + "]")
+
+    def process_dataset_entry(self, data_entry):
+        text = data_entry[self.text_key]
+        cleaned_string = self.pattern.sub('', text).strip()
+        cleaned_string = re.sub('\\s+', ' ', cleaned_string).strip()
+        words = cleaned_string.split()
+        num_words = len(words)
+        data_entry[self.num_words_key] = num_words
+        return [DataEntry(data=data_entry)]
+    
+
+class ReadTxtLines(BaseParallelProcessor):
+    """
+    The text file specified in source_filepath will be read, and each line in it will be added as a line in the output manifest,
+    saved in the field text_key.
+
+    Args:
+        input_file_key (str): The key in the manifest containing the input txt file path .
+        text_key (str): The key to store the read text lines in the manifest.
+        **kwargs: Additional keyword arguments to be passed to the base class `BaseParallelProcessor`.
+
+    """
+
+    def __init__(
+        self,
+        input_file_key: str,
+        text_key: str,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.input_file_key = input_file_key
+        self.text_key = text_key
+
+    def process_dataset_entry(self, data_entry):
+        fname = data_entry[self.input_file_key]
+        data_list = []
+        with open(fname, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    data = data_entry.copy()
+                    data[self.text_key] = line
+                    data_list.append(DataEntry(data=data))
+        return data_list
+
 class InsIfASRInsertion(BaseParallelProcessor):
     """Processor that adds substrings to transcription if they are present in ASR predictions.
 

@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   frontend:
-    image: nvcr.io/nvidia/nemo:23.10
+    image: testimage:v2
     build: .
     volumes:
       - type: tmpfs
@@ -20,3 +20,6 @@ services:
     entrypoint: tail -f
     environment:
       NVIDIA_VISIBLE_DEVICES: all
+    ports:
+      - "8050:8050"
+      - "6006:6006"

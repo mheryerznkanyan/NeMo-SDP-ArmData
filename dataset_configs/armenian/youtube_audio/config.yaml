@@ -17,7 +17,7 @@ processors:
     output_manifest_file: ${workspace_dir}/manifest2.json
     input_audio_field: audio_filepath
     output_lang_field: audio_lang
-    device: cpu
+    device: gpu
     pretrained_model: "langid_ambernet"
     segment_duration: 20
     num_segments: 3
